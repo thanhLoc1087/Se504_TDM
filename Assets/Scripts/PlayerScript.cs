@@ -28,6 +28,10 @@ public class PlayerScript: MonoBehaviour
     public float surfaceDistance = 0.4f;
     public LayerMask surfaceMask;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     private void Update()
     {
         onSurface = Physics.CheckSphere(surfaceCheck.position, surfaceDistance, surfaceMask);
@@ -58,7 +62,6 @@ public class PlayerScript: MonoBehaviour
             animator.SetBool("Walk", true);
             animator.SetBool("Running", false);
             animator.SetBool("Idle", false);
-            animator.SetBool("AimWalk", false);
             animator.SetBool("IdleAim", false);
             animator.SetTrigger("Jump");
 
@@ -72,12 +75,24 @@ public class PlayerScript: MonoBehaviour
         } 
         else
         {
+            Debug.Log("player");
+            checkIdle();
+            currentSpeed = 0f;
+        }
+    }
+
+    void checkIdle()
+    {
+        if (Input.GetButton("Fire1") || Input.GetButton("Fire2")) { }
+        else
+        {
             animator.SetBool("Idle", true);
             animator.SetTrigger("Jump");
             animator.SetBool("AimWalk", false);
             animator.SetBool("Walk", false);
             animator.SetBool("Running", false);
-            currentSpeed = 0f;
+            animator.SetBool("Fire", false);
+            animator.SetBool("FireWalk", false);
         }
     }
 
